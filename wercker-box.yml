@@ -1,0 +1,43 @@
+name: ubuntu14.04
+version: 1.0.0
+description: Ubuntu 14.04 & node 6 & yarn & ffmpeg
+type: main
+platform: ubuntu@12.04
+keywords:
+  - ubuntu
+  - 14.04
+  - trusty
+  - node
+  - yarn
+  - ffmpeg
+script: |
+  ####
+  # Upgrade to Ubuntu 14.04
+  sudo apt-get update
+  sudo apt-get install -y update-manager-core
+  sudo do-release-upgrade -f DistUpgradeViewNonInteractive -m server -d
+  sudo apt-get install -y aptitude
+  sudo aptitude update
+  sudo aptitude safe-upgrade
+
+  ####
+  # Install Node.js
+  sudo apt-get update
+  sudo apt-get -y install curl
+  curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  sudo apt-get install --yes nodejs
+
+  ####
+  # Install ffmpeg
+  sudo apt-get install software-properties-common python-software-properties -y
+  sudo add-apt-repository ppa:mc3man/trusty-media -y
+  sudo apt-get update -y
+  sudo apt-get dist-upgrade -y
+  sudo apt-get install ffmpeg -y
+
+  ####
+  # Install Yarn
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  sudo apt-get update -y
+  sudo apt-get install yarn -y
